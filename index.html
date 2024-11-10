@@ -8,14 +8,40 @@
   <div style="text-align: center; margin-top: 50px;">
     <h1>موقع مساعد للإعراب</h1>
     <input type="text" id="sentence" placeholder="أدخل الجملة هنا" style="width: 80%; padding: 10px;">
-    <button onclick="displayResult()">إعرب الجملة</button>
+    <button onclick="analyzeSentence()">إعرب الجملة</button>
     <div id="result" style="margin-top: 20px;"></div>
   </div>
 
   <script>
-    function displayResult() {
+    async function analyzeSentence() {
       const sentence = document.getElementById('sentence').value;
-      document.getElementById('result').innerText = `يمكنك البدء بإعراب هذه الجملة من خلال التركيز على الكلمات الأساسية مثل ${sentence.split(' ')[0]}.`;
+
+      if (sentence.trim() === "") {
+        document.getElementById('result').innerText = "الرجاء إدخال جملة!";
+        return;
+      }
+
+      try {
+        // استبدل YOUR_API_KEY بمفتاح الـ API الذي حصلت عليه
+        const response = await fetch('https://farasa.qcri.org/api/analyze', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer VMlTUOtYKIqbTqAddw' // استبدل بـ API Key
+          },
+          body: JSON.stringify({ text: sentence })
+        });
+
+        const data = await response.json();
+
+        if (data && data.analysis) {
+          document.getElementById('result').innerText = `إعراب الجملة: ${JSON.stringify(data.analysis)}`;
+        } else {
+          document.getElementById('result').innerText = "لم يتم العثور على الإعراب.";
+        }
+      } catch (error) {
+        document.getElementById('result').innerText = "حدث خطأ أثناء الاتصال بـ Farasa.";
+      }
     }
   </script>
 </body>
