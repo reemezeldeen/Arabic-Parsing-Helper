@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+  <meta charset="UTF-8">
+  <title>موقع مساعد للإعراب</title>
+</head>
+<body>
+  <div style="text-align: center; margin-top: 50px;">
+    <h1>موقع مساعد للإعراب</h1>
+    <input type="text" id="sentence" placeholder="أدخل الجملة هنا" style="width: 80%; padding: 10px;">
+    <button onclick="displayResult()">إعرب الجملة</button>
+    <div id="result" style="margin-top: 20px;"></div>
+  </div>
+
+  <script>
+    function displayResult() {
+      const sentence = document.getElementById('sentence').value;
+      document.getElementById('result').innerText = `يمكنك البدء بإعراب هذه الجملة من خلال التركيز على الكلمات الأساسية مثل ${sentence.split(' ')[0]}.`;
+    }
+  </script>
+</body>
+</html>
